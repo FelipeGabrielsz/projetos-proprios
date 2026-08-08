@@ -1,3 +1,29 @@
 spring:
   application:
-    name: financeiro
+    name: controle-financeiro
+
+  # Configuração do Banco de Dados
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: system
+    password: admin
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: 10 # Padrão de mercado para evitar sobrecarga no banco local
+
+  # Configuração do JPA (Hibernate)
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    show-sql: true # Mostra os SQLs no console (ótimo para debug)
+    properties:
+      hibernate:
+        format_sql: true # Deixa o SQL formatado e legível no console
+    hibernate:
+      # REGRA DE OURO DO TECH LEAD: 'validate' ou 'none'.
+      # NUNCA use 'update' ou 'create' em projetos sérios. Quem cria tabela é o Flyway.
+      ddl-auto: validate
+
+  # Configuração do Flyway
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
